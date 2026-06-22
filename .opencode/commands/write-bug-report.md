@@ -1,0 +1,1 @@
+../../commands/write-bug-report.md
