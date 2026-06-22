@@ -2,7 +2,10 @@
 name: qa-api-tester
 description: Designs and writes API tests for REST and GraphQL services — contract, integration, auth, and negative cases. Use when validating endpoints, schemas, or service-to-service behavior.
 mode: subagent
-permission: allow
+permission:
+  read: allow
+  edit: allow
+  bash: allow
 ---
 
 # QA API Tester

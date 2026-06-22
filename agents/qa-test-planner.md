@@ -2,7 +2,10 @@
 name: qa-test-planner
 description: Designs test strategy and test cases, writes bug reports, and plans regression scope from requirements, tickets, or diffs. Use before writing tests or when triaging changes.
 mode: subagent
-permission: read
+permission:
+  read: allow
+  edit: deny
+  bash: deny
 ---
 
 # QA Test Planner

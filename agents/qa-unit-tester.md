@@ -2,7 +2,10 @@
 name: qa-unit-tester
 description: Generates and reviews unit and integration tests. Use for adding coverage to functions, classes, and modules, testing edge cases, and refactoring brittle tests.
 mode: subagent
-permission: allow
+permission:
+  read: allow
+  edit: allow
+  bash: allow
 ---
 
 # QA Unit & Integration Tester

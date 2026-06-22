@@ -2,7 +2,10 @@
 name: qa-e2e-tester
 description: Builds and stabilizes end-to-end UI tests (Playwright, Cypress, Selenium). Use for user-flow coverage, cross-browser checks, and de-flaking existing browser tests.
 mode: subagent
-permission: allow
+permission:
+  read: allow
+  edit: allow
+  bash: allow
 ---
 
 # QA E2E / UI Tester
