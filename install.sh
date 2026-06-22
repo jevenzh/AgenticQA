@@ -28,7 +28,7 @@ while [ -h "$SOURCE" ]; do
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
-ASSETS="$REPO_ROOT/assets"
+ASSETS="$REPO_ROOT"
 
 # ---- defaults --------------------------------------------------------------
 PROJECT="$(pwd)"
@@ -109,7 +109,7 @@ link_skills() {  # link each skill directory
 install_claude() {
   echo "[Claude Code] -> .claude/"
   link_files "$ASSETS/agents"    '*.md' "$PROJECT/.claude/agents"   ".md"
-  link_files "$ASSETS/workflows" '*.md' "$PROJECT/.claude/commands" ".md"
+  link_files "$ASSETS/commands" '*.md' "$PROJECT/.claude/commands" ".md"
   link_skills "$PROJECT/.claude/skills"
   echo
 }
@@ -117,17 +117,15 @@ install_claude() {
 install_opencode() {
   echo "[OpenCode] -> .opencode/"
   link_files "$ASSETS/agents"    '*.md' "$PROJECT/.opencode/agents"   ".md"
-  link_files "$ASSETS/workflows" '*.md' "$PROJECT/.opencode/commands" ".md"
+  link_files "$ASSETS/commands" '*.md' "$PROJECT/.opencode/commands" ".md"
   link_skills "$PROJECT/.opencode/skills"
   echo
 }
 
 install_copilot() {
   echo "[GitHub Copilot] -> .github/"
-  # agents -> chat modes; workflows -> prompt files
-  link_files "$ASSETS/agents"    '*.md' "$PROJECT/.github/chatmodes" ".chatmode.md"
-  link_files "$ASSETS/workflows" '*.md' "$PROJECT/.github/prompts"   ".prompt.md"
-  echo "  note: Copilot has no SKILL.md mechanism; skills are linked for Claude Code & OpenCode only."
+  link_files "$ASSETS/agents" '*.md' "$PROJECT/.github/agents" ".md"
+  link_skills "$PROJECT/.github/skills"
   echo
 }
 

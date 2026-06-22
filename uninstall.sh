@@ -13,7 +13,7 @@ while [ -h "$SOURCE" ]; do
   SOURCE="$(readlink "$SOURCE")"; [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
-ASSETS="$REPO_ROOT/assets"
+ASSETS="$REPO_ROOT"
 
 PROJECT="$(pwd)"; TARGETS="all"; DRY=0
 while [[ $# -gt 0 ]]; do
@@ -34,7 +34,7 @@ for t in "${LIST[@]}"; do
   case "$t" in
     claude)   DIRS+=("$PROJECT/.claude/agents" "$PROJECT/.claude/commands" "$PROJECT/.claude/skills");;
     opencode) DIRS+=("$PROJECT/.opencode/agents" "$PROJECT/.opencode/commands" "$PROJECT/.opencode/skills");;
-    copilot)  DIRS+=("$PROJECT/.github/chatmodes" "$PROJECT/.github/prompts");;
+    copilot)  DIRS+=("$PROJECT/.github/agents" "$PROJECT/.github/skills");;
   esac
 done
 
