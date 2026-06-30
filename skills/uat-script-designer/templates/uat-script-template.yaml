@@ -1,0 +1,17 @@
+suite: ""
+scenario_id: ""
+title: ""
+business_goal: ""
+preconditions:
+  - ""
+steps:
+  - action: ""
+    expected: ""
+postconditions:
+  - ""
+evidence:
+  - ""
+priority: ""
+owner: ""
+acceptance_criteria:
+  - ""

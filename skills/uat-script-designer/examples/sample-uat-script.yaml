@@ -1,0 +1,26 @@
+suite: checkout-uat
+scenario_id: UAT-CHK-001
+title: Recover from transient payment failure
+business_goal: User can complete checkout without duplicate charge after a retryable gateway failure
+preconditions:
+  - Test account exists with seeded cart
+  - Payment sandbox is configured to return one retryable failure
+steps:
+  - action: Open the checkout page for the seeded cart
+    expected: Checkout form is visible and cart total matches expected amount
+  - action: Submit the order with the retryable payment method
+    expected: Recovery or retry message is shown to the user
+  - action: Wait for the checkout flow to complete
+    expected: Confirmation page appears with a single order number
+postconditions:
+  - Exactly one order exists for the cart
+  - Exactly one successful payment capture exists
+evidence:
+  - Screenshot of confirmation page
+  - Order number
+  - Payment attempt log reference
+priority: P0
+owner: Product QA
+acceptance_criteria:
+  - Recovery messaging is understandable to business stakeholders
+  - Finance or operations reviewer confirms no duplicate charge evidence

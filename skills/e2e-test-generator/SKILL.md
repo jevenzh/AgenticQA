@@ -1,35 +1,61 @@
 ---
 name: e2e-test-generator
-description: Generate stable end-to-end UI tests (Playwright, Cypress, Selenium) for a user journey, using resilient locators and auto-waiting. Use when the user wants browser/UI flow tests or wants to de-flake existing E2E tests.
+description: Generate stable end-to-end UI tests for real user journeys using the repo's existing browser framework, resilient locators, and deterministic setup. Use when validating flows, adding browser coverage, or deflaking E2E suites.
+when_to_use: Use when the user asks for browser or user-flow tests, cross-page regression coverage, or stabilization of flaky E2E suites. Triggers include "E2E tests", "user journey", "Playwright", "Cypress", "de-flake", and "browser regression".
+argument-hint: [user-flow|page|journey]
 ---
 
 # E2E Test Generator
 
-Generate end-to-end browser tests that automate real user journeys without flake.
+Use this skill to automate complete user journeys without turning the suite brittle.
 
-## When to use
+## Inputs
 
-The user wants UI/browser test coverage for a user flow, cross-browser checks, or stabilization of flaky existing E2E tests.
+- Journey scope: `$ARGUMENTS`
+- Existing E2E framework, fixtures, and page objects
+- Required auth/data/environment setup
+- Upstream test case design spec and any UAT candidate scenarios when available
 
 ## Procedure
 
-1. **Detect the framework.** Playwright, Cypress, Selenium, or WebdriverIO — follow the repo's config and page-object/fixture patterns. Default to Playwright only for greenfield.
-2. **Map the journey.** Break the user goal into ordered, verifiable steps (e.g. land → sign in → add to cart → checkout → confirm).
-3. **Use stable locators.** Prefer role/label/test-id selectors. Never bind to styling-based CSS/XPath.
-4. **Push setup off the UI.** Establish auth and seed data via fixtures or API calls, not by clicking through prerequisite screens.
-5. **Assert with auto-waiting.** Use web-first assertions; never insert fixed `sleep`/`waitForTimeout`.
-6. **Run and harden.** Run headless; on failure read trace/screenshots and fix the root cause. Ensure each test is isolated and parallel-safe.
+1. Detect the repo's E2E framework and conventions.
+2. If a test case design spec exists, start from the E2E-assigned cases and preserve their trace IDs.
+3. Define the journey as ordered user-visible milestones.
+4. Reconcile automation with manual UAT using `references/e2e-vs-uat-boundary.md`:
+   - automate deterministic product behavior
+   - leave business-judgment or sign-off steps to UAT YAML scripts
+5. Choose stable locators using `references/locator-strategy-guide.md`: role, label, or test id.
+6. Move setup off the UI when possible using fixtures or APIs.
+7. Ensure environment and seeded data readiness before execution.
+8. Write assertions with condition-based waiting only.
+9. Run headless, inspect traces/screenshots on failure, and fix root causes rather than adding waits; use `references/flake-root-cause-playbook.md` when triaging flakes.
+10. Report flake risks, runtime impact, remaining coverage gaps, and any residual UAT-only scenarios.
 
-## Quality bar
+## Output contract
 
-- Covers a complete journey and passes reliably on repeat runs.
-- No fixed sleeps; waits are condition/assertion based.
-- Locators are user-facing and stable.
-- Tests set up and tear down their own state.
+Use `templates/e2e-journey-template.md`.
 
-## Anti-patterns to avoid
+Required sections:
 
-- `sleep(n)` to "fix" timing.
-- Selecting by auto-generated class names or deep CSS paths.
-- Tests that depend on a prior test having run.
-- Driving login/seed steps through the UI on every test.
+- journey definition
+- trace IDs and automated-vs-UAT split when present
+- setup and data requirements
+- locator strategy
+- assertions and success criteria
+- flake/runtime risks
+
+## Guardrails
+
+- Do not use fixed sleeps.
+- Do not couple tests to styling-based selectors.
+- Do not drive repetitive auth/seed setup through the UI when an API/fixture path exists.
+- Do not leave tests order-dependent or non-parallel-safe.
+
+## Reference assets
+
+- Template: `templates/e2e-journey-template.md`
+- Example: `examples/sample-e2e-journey.md`
+- Anti-pattern scan script: `scripts/scan-e2e-anti-patterns.sh`
+- Theory/practice reference: `references/locator-strategy-guide.md`
+- Theory/practice reference: `references/flake-root-cause-playbook.md`
+- Theory/practice reference: `references/e2e-vs-uat-boundary.md`
